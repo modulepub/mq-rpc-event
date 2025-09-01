@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>RPC 分布式事务异常中心</title>
+  <style>
+    :root { --bg:#0f1419; --card:#1a2332; --text:#e7ecf3; --muted:#8b9bb4; --accent:#3b82f6; --danger:#ef4444; --ok:#22c55e; --warn:#f59e0b; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:20px 24px; border-bottom:1px solid #2a3548; display:flex; justify-content:space-between; align-items:center; }
+    h1 { margin:0; font-size:20px; }
+    main { padding:24px; max-width:1400px; margin:0 auto; }
+    .toolbar { display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+    button, select { background:var(--card); color:var(--text); border:1px solid #334155; padding:8px 14px; border-radius:8px; cursor:pointer; }
+    button.primary { background:var(--accent); border-color:var(--accent); }
+    button.danger { background:var(--danger); border-color:var(--danger); }
+    table { width:100%; border-collapse:collapse; background:var(--card); border-radius:12px; overflow:hidden; }
+    th, td { padding:12px 14px; text-align:left; border-bottom:1px solid #2a3548; font-size:13px; vertical-align:top; }
+    th { color:var(--muted); font-weight:600; }
+    .status { padding:2px 8px; border-radius:999px; font-size:12px; display:inline-block; }
+    .COMPENSATE_PENDING,.NEEDS_MANUAL { background:#422006; color:var(--warn); }
+    .COMPENSATE_FAILED { background:#450a0a; color:var(--danger); }
+    .COMPENSATED,.CONFIRMED { background:#052e16; color:var(--ok); }
+    .FAILED,.PENDING { background:#1e293b; color:var(--muted); }
+    .error { color:#fca5a5; max-width:280px; word-break:break-all; }
+    #toast { position:fixed; right:24px; bottom:24px; background:#1e293b; padding:12px 16px; border-radius:8px; display:none; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>RPC 分布式事务异常中心</h1>
+  <span style="color:var(--muted);font-size:13px">Saga 分支记录 · 手动补偿</span>
+</header>
+<main>
+  <div class="toolbar">
+    <select id="filter">
+      <option value="attention">待处理</option>
+      <option value="all">全部</option>
+      <option value="status">补偿失败</option>
+    </select>
+    <button onclick="load()">刷新</button>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>分支 ID</th><th>全局 XID</th><th>模块</th><th>服务 / 方法</th>
+      <th>补偿方法</th><th>状态</th><th>尝试次数</th><th>错误信息</th><th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+<div id="toast"></div>
+<script>
+  const API = '/pub/tg-rpc-tx/api';
+
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3000);
+  }
+
+  async function load() {
+    const filter = document.getElementById('filter').value;
+    const res = await fetch(`${API}/records?filter=${filter}`);
+    const data = await res.json();
+    const tbody = document.getElementById('rows');
+    tbody.innerHTML = '';
+    data.forEach(r => {
+      const tr = document.createElement('tr');
+      const canCompensate = ['COMPENSATE_PENDING','COMPENSATE_FAILED','NEEDS_MANUAL','CONFIRMED'].includes(r.status);
+      tr.innerHTML = `
+        <td><code>${r.branchId}</code></td>
+        <td><code>${r.globalXid}</code></td>
+        <td>${r.module}</td>
+        <td>${short(r.service)}<br/><strong>${r.method}</strong></td>
+        <td>${r.compensateMethod}</td>
+        <td><span class="status ${r.status}">${r.status}</span></td>
+        <td>${r.compensateAttempts}</td>
+        <td class="error">${r.errorMessage || '-'}</td>
+        <td>
+          ${canCompensate ? `<button class="danger" onclick="compensate('${r.branchId}')">补偿</button>` : '-'}
+          <button onclick="compensateGlobal('${r.globalXid}')">全局补偿</button>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function short(s) { return s ? s.split('.').pop() : ''; }
+
+  async function compensate(branchId) {
+    await fetch(`${API}/records/${branchId}/compensate`, { method: 'POST' });
+    toast('分支补偿已触发: ' + branchId);
+    load();
+  }
+
+  async function compensateGlobal(globalXid) {
+    await fetch(`${API}/global/${globalXid}/compensate`, { method: 'POST' });
+    toast('全局补偿已触发: ' + globalXid);
+    load();
+  }
+
+  load();
+</script>
+</body>
+</html>
