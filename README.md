@@ -391,6 +391,14 @@ RPC tx admin API registered at /pub/tg-rpc-tx/api
 
 若无上述日志，检查是否已 `install` 最新版 starter 并完整打包。
 
+## 同步传输演进（设计中）
+
+将 `@RpcApi` 的远端介质从 MQ Request-Reply 换成 **按 Java 方法注册的 gRPC**（业务注解与用例不变，事件轨 `@MqChannel` 仍走本仓库 mq-event）的实施设计见：
+
+[tg-boot/docs/architecture/04-grpc-rpc.md](../tg-boot/docs/architecture/04-grpc-rpc.md)
+
+**状态：待确认，本仓库尚未按该文档改代码。**
+
 ## 许可证
 
 [Apache License 2.0](LICENSE)
