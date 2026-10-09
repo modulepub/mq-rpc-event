@@ -1,7 +1,8 @@
 package pub.module.mqrpc.tx;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import lombok.extern.slf4j.Slf4j;
 import pub.module.mqrpc.RpcEnvelope;
 import pub.module.mqrpc.RpcResult;
@@ -26,7 +27,7 @@ public class RpcTxCompensator {
                             ObjectMapper objectMapper) {
         this.providerRegistry = providerRegistry;
         this.mqRpcGateway = mqRpcGateway;
-        this.objectMapper = objectMapper != null ? objectMapper : new ObjectMapper();
+        this.objectMapper = objectMapper != null ? objectMapper : JsonMapper.builder().findAndAddModules().build();
     }
 
     public void compensate(RpcTxRecord branch) throws Exception {

@@ -2,11 +2,11 @@ package pub.module.mqevent;
 
 import org.springframework.core.ResolvableType;
 import org.springframework.util.ClassUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.messaging.Message;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.Set;
  */
 public final class MqContractSupport {
 
-    private static final ObjectMapper JSON_MAPPER = new ObjectMapper().findAndRegisterModules();
+    private static final ObjectMapper JSON_MAPPER = JsonMapper.builder().findAndAddModules().build();
 
     private MqContractSupport() {
     }
@@ -260,14 +260,14 @@ public final class MqContractSupport {
         if (resolved instanceof byte[] bytes) {
             try {
                 return JSON_MAPPER.readValue(bytes, targetType);
-            } catch (IOException ex) {
+            } catch (RuntimeException ex) {
                 throw new IllegalStateException("MQ payload 反序列化失败: " + targetType.getName(), ex);
             }
         }
         if (resolved instanceof String text && StringUtils.hasText(text)) {
             try {
                 return JSON_MAPPER.readValue(text, targetType);
-            } catch (IOException ex) {
+            } catch (RuntimeException ex) {
                 throw new IllegalStateException("MQ payload 反序列化失败: " + targetType.getName(), ex);
             }
         }

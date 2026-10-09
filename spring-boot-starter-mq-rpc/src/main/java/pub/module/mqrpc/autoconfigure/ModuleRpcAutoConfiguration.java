@@ -26,7 +26,8 @@ import pub.module.mqrpc.tx.InMemoryRpcTxRecordRepository;
 import pub.module.mqrpc.tx.RpcTxCompensator;
 import pub.module.mqrpc.tx.RpcTxCoordinator;
 import pub.module.mqrpc.tx.RpcTxRecordRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,7 @@ public class ModuleRpcAutoConfiguration {
             ObjectProvider<ObjectMapper> objectMapper) {
         ObjectMapper mapper = objectMapper.getIfAvailable();
         if (mapper == null) {
-            mapper = new ObjectMapper();
+            mapper = JsonMapper.builder().findAndAddModules().build();
         }
         return new RpcTxCoordinator(repository, compensator, mapper, properties.getTx().isEnabled());
     }

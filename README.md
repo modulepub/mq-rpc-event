@@ -7,11 +7,24 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 | MQ RPC | `spring-boot-starter-mq-rpc` | 跨模块同步调用，Feign 等价物，底层 MQ Request-Reply |
 | MQ Event | `spring-boot-starter-mq-event` | 契约驱动的 Pub/Sub 与 Request-Reply 事件 |
 
-## 技术栈
+## 版本与 Spring Boot 对齐
+
+| 发布版本 | Spring Boot | Spring Cloud | 说明 |
+|----------|-------------|--------------|------|
+| **1.1.x** | 3.5.x | 2025.0.x（Northfields） | 当前 tg-boot 3.6 默认依赖 |
+| **2.0.x** | 4.0.x | 2025.1.x（Oakwood） | Jackson 3（`tools.jackson`）、Boot 4 模块化 AMQP |
+
+**2.0.0 相对 1.1.0 的代码级变更（库内已处理，应用侧仅需升 BOM）：**
+
+- `RabbitAutoConfiguration` → `org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration`
+- JSON 使用 **Jackson 3**（`tools.jackson.databind.ObjectMapper` / `JsonMapper`）
+- 编译需 **Java 21+**
+
+## 技术栈（2.0.x 主线）
 
 - Java 21
-- Spring Boot 3.5.5
-- Spring Cloud Stream + RabbitMQ Binder
+- Spring Boot 4.0.8
+- Spring Cloud 2025.1.3 + Spring Cloud Stream + RabbitMQ Binder
 - 未配置外部 Broker 时自动启用嵌入式 `rabbitmq-mock`（本地开发零依赖）
 
 ## 快速开始
@@ -23,16 +36,18 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-mq-rpc</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
 </dependency>
 
 <!-- 异步事件 -->
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-mq-event</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
+
+仍在 **Spring Boot 3.5** 上的项目请继续使用 **1.1.0**（勿与 2.0.0 混用）。
 
 ### 连接 RabbitMQ（可选）
 
