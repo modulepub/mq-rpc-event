@@ -4,7 +4,11 @@ import tools.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import pub.module.mqrpc.RpcEnvelope;
+import pub.module.rpc.spi.RpcEnvelope;
+import pub.module.rpc.spi.tx.RpcTxContext;
+import pub.module.rpc.spi.tx.RpcTxRecord;
+import pub.module.rpc.spi.tx.RpcTxRecordRepository;
+import pub.module.rpc.spi.tx.RpcTxStatus;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,7 +18,7 @@ import java.util.UUID;
  * RPC Saga 协调器：记录分支、确认/失败、触发补偿。
  */
 @Slf4j
-public class RpcTxCoordinator {
+public class RpcTxCoordinator implements pub.module.rpc.spi.tx.RpcTxClientCoordinator {
 
     private final RpcTxRecordRepository repository;
     private final RpcTxCompensator compensator;

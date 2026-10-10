@@ -1,5 +1,9 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqChannelMetadata;
+import pub.module.event.spi.MqContractSupport;
+import pub.module.event.spi.MqSubscription;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

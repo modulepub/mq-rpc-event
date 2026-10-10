@@ -2,10 +2,12 @@ package pub.module.mqrpc.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import pub.module.mqrpc.RpcEnvelope;
-import pub.module.mqrpc.RpcResult;
-import pub.module.mqrpc.spi.RpcClientExceptionConverter;
-import pub.module.mqrpc.spi.RpcRemoteTransport;
+import pub.module.rpc.spi.RpcEnvelope;
+import pub.module.rpc.spi.RpcResult;
+import pub.module.rpc.spi.RpcClientExceptionConverter;
+import pub.module.rpc.spi.RpcRemoteTransport;
+import pub.module.rpc.spi.autoconfigure.ModuleApiSupport;
+import pub.module.rpc.spi.autoconfigure.ModuleCallProperties;
 
 import java.util.Collections;
 import java.util.List;

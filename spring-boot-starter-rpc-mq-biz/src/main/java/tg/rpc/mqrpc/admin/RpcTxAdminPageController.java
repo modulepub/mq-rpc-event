@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pub.module.mqrpc.autoconfigure.RpcTxAdminPaths;
 
 /**
- * RPC 分布式事务管理页（由 {@link pub.module.mqrpc.autoconfigure.ModuleRpcAutoConfiguration} 注册）。
+ * RPC 分布式事务管理页（由 {@link pub.module.mqrpc.autoconfigure.MqModuleRpcAutoConfiguration} 注册）。
  */
 @Controller
 @RequestMapping(RpcTxAdminPaths.BASE)

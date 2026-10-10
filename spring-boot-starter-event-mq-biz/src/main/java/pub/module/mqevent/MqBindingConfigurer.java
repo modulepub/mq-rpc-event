@@ -1,5 +1,8 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqChannelMetadata;
+import pub.module.event.spi.MqSubscription;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cloud.stream.config.BindingProperties;

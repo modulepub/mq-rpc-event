@@ -1,5 +1,9 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqChannel;
+import pub.module.event.spi.MqChannelMetadata;
+import pub.module.event.spi.MqContractSupport;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;

@@ -4,11 +4,13 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 import lombok.extern.slf4j.Slf4j;
-import pub.module.mqrpc.RpcEnvelope;
-import pub.module.mqrpc.RpcResult;
-import pub.module.mqrpc.autoconfigure.ModuleApiProviderRegistry;
-import pub.module.mqrpc.autoconfigure.ModuleApiSupport;
-import pub.module.mqrpc.spi.RpcRemoteTransport;
+import pub.module.rpc.spi.RpcEnvelope;
+import pub.module.rpc.spi.RpcResult;
+import pub.module.rpc.spi.autoconfigure.ModuleApiProviderRegistry;
+import pub.module.rpc.spi.autoconfigure.ModuleApiSupport;
+import pub.module.rpc.spi.RpcRemoteTransport;
+import pub.module.rpc.spi.tx.RpcTxContext;
+import pub.module.rpc.spi.tx.RpcTxRecord;
 
 import java.lang.reflect.Method;
 
@@ -56,7 +58,11 @@ public class RpcTxCompensator {
                     envelope.setCompensateInvocation(true);
                     log.info("ModuleRpc [TX-COMPENSATE] MQ {}.{}", apiInterface.getSimpleName(), compensateMethod);
                     RpcResult result = remoteTransport.request(envelope);
-                    remoteTransport.throwIfFailed(result);
+                    try {
+                        remoteTransport.throwIfFailed(result);
+                    } catch (Throwable tx) {
+                        throw new IllegalStateException("补偿 RPC 失败: " + compensateMethod, tx);
+                    }
                 }
             } catch (RuntimeException ex) {
                 throw ex;

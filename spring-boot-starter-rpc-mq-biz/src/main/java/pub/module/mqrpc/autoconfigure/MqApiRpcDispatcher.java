@@ -1,9 +1,10 @@
 package pub.module.mqrpc.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
-import pub.module.mqrpc.RpcEnvelope;
-import pub.module.mqrpc.RpcResult;
-import pub.module.mqrpc.spi.RpcExceptionConverter;
+import pub.module.rpc.spi.RpcEnvelope;
+import pub.module.rpc.spi.RpcResult;
+import pub.module.rpc.spi.RpcExceptionConverter;
+import pub.module.rpc.spi.autoconfigure.ModuleApiProviderRegistry;
 
 import java.util.Collections;
 import java.util.List;

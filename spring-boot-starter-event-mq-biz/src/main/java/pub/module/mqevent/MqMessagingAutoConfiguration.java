@@ -1,5 +1,7 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqPublisher;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
+import pub.module.rpc.spi.autoconfigure.ConditionalOnRpcApiPresent;
 
 /**
  * 未配置外部 RabbitMQ broker 时，自动启用进程内 Mock AMQP（免安装、免开关配置）。

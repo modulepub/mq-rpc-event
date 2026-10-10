@@ -1,2 +1,2 @@
 pub.module.mqrpc.autoconfigure.EmbeddedRabbitAutoConfiguration
-pub.module.mqrpc.autoconfigure.ModuleRpcAutoConfiguration
+pub.module.mqrpc.autoconfigure.MqModuleRpcAutoConfiguration

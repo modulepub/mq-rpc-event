@@ -17,7 +17,8 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 |----------|-------------|--------------|------|
 | **1.1.x** | 3.5.x | 2025.0.x（Northfields） | 当前 tg-boot 3.6 默认依赖 |
 | **2.0.x** | 4.0.x | 2025.1.x（Oakwood） | Jackson 3（`tools.jackson`）、Boot 4 模块化 AMQP |
-| **2.1.x** | 4.0.x | 2025.1.x | 上表四模块拆分；聚合 artifact 名不变 |
+| **2.1.x** | 4.0.x | 2025.1.x | 四模块拆分；聚合 artifact 名不变 |
+| **2.2.x** | 4.0.x | 2025.1.x | 契约包名 `pub.module.rpc.spi` / `pub.module.event.spi` |
 
 **2.0.0 相对 1.1.0 的代码级变更（库内已处理，应用侧仅需升 BOM）：**
 
@@ -25,7 +26,7 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 - JSON 使用 **Jackson 3**（`tools.jackson.databind.ObjectMapper` / `JsonMapper`）
 - 编译需 **Java 21+**
 
-## 技术栈（2.0.x 主线）
+## 技术栈（2.2.x 主线，当前 `${revision}` = **2.2.0**）
 
 - Java 21
 - Spring Boot 4.0.8
@@ -41,24 +42,24 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-rpc-spi</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-rpc-mq-biz</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 
 <!-- 异步事件 -->
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-event-spi</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 <dependency>
     <groupId>pub.module</groupId>
     <artifactId>spring-boot-starter-event-mq-biz</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -93,8 +94,8 @@ spring:
 ```java
 package pub.module.order.api.service;
 
-import pub.module.mqrpc.RpcApi;
-import pub.module.mqrpc.RpcCompensate;
+import pub.module.rpc.spi.RpcApi;
+import pub.module.rpc.spi.RpcCompensate;
 
 @RpcApi
 public interface ApiOrderService {
@@ -174,9 +175,9 @@ tg:
 ```java
 package pub.module.system.api.subscribe;
 
-import pub.module.mqevent.MqChannel;
-import pub.module.mqevent.MqChannelMode;
-import pub.module.mqevent.MqMessageConsumer;
+import pub.module.event.spi.MqChannel;
+import pub.module.event.spi.MqChannelMode;
+import pub.module.event.spi.MqMessageConsumer;
 
 @MqChannel(mode = MqChannelMode.FIRE_AND_FORGET)
 public interface UserLoginConsumer extends MqMessageConsumer<UserLoginEvent> {

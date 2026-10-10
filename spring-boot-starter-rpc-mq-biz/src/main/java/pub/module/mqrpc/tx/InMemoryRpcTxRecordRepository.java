@@ -1,12 +1,16 @@
 package pub.module.mqrpc.tx;
 
+import pub.module.rpc.spi.tx.RpcTxRecord;
+import pub.module.rpc.spi.tx.RpcTxRecordRepository;
+import pub.module.rpc.spi.tx.RpcTxStatus;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 进程内内存实现，事务元数据通过 MQ {@link pub.module.mqrpc.RpcEnvelope} 传递。
+ * 进程内内存实现，事务元数据通过 MQ {@link pub.module.rpc.spi.RpcEnvelope} 传递。
  */
 public class InMemoryRpcTxRecordRepository implements RpcTxRecordRepository {
 

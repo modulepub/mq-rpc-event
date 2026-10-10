@@ -1,5 +1,10 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqChannelMetadata;
+import pub.module.event.spi.MqContractSupport;
+import pub.module.event.spi.MqPublisher;
+import pub.module.event.spi.TransactionAfterCommit;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 

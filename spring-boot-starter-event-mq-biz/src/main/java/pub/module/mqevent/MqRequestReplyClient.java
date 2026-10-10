@@ -1,5 +1,11 @@
 package pub.module.mqevent;
 
+import pub.module.event.spi.MqChannelMetadata;
+import pub.module.event.spi.MqChannelMode;
+import pub.module.event.spi.MqContractSupport;
+import pub.module.event.spi.MqSubscribe;
+import pub.module.event.spi.MessagingQueueNames;
+
 import cn.hutool.core.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

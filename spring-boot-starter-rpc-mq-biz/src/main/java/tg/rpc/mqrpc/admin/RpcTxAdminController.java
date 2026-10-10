@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pub.module.mqrpc.autoconfigure.RpcTxAdminPaths;
 import pub.module.mqrpc.tx.RpcTxCoordinator;
-import pub.module.mqrpc.tx.RpcTxRecord;
-import pub.module.mqrpc.tx.RpcTxStatus;
+import pub.module.rpc.spi.tx.RpcTxRecord;
+import pub.module.rpc.spi.tx.RpcTxStatus;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * RPC 分布式事务异常记录与手动补偿 API（由 {@link pub.module.mqrpc.autoconfigure.ModuleRpcAutoConfiguration} 注册）。
+ * RPC 分布式事务异常记录与手动补偿 API（由 {@link pub.module.mqrpc.autoconfigure.MqModuleRpcAutoConfiguration} 注册）。
  */
 @RestController
 @RequestMapping(RpcTxAdminPaths.API)

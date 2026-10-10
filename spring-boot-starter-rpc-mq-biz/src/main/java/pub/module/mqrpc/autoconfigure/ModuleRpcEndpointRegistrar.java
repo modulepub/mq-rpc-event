@@ -9,7 +9,9 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.core.Ordered;
 import org.springframework.util.ReflectionUtils;
-import pub.module.mqrpc.RpcEnvelope;
+import pub.module.rpc.spi.RpcEnvelope;
+import pub.module.rpc.spi.autoconfigure.ModuleApiProviderRegistry;
+import pub.module.rpc.spi.autoconfigure.ModuleApiSupport;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
