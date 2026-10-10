@@ -1,0 +1,2 @@
+pub.module.mqevent.EmbeddedRabbitAutoConfiguration
+pub.module.mqevent.MqMessagingAutoConfiguration

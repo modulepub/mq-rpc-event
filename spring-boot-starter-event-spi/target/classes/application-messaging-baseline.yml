@@ -1,0 +1,23 @@
+# Spring Cloud Stream / Rabbit 消费运维基线（由 runner spring.config.import 引入）
+# 渠道 binding 由 MqMessaging* 按 XxxConsumer 契约自动注册，此处仅保留 MQ 基础设施参数。
+tg:
+  messaging:
+    consumer:
+      default-max-attempts: 3
+
+spring:
+  cloud:
+    stream:
+      default:
+        consumer:
+          max-attempts: 3
+      rabbit:
+        default:
+          consumer:
+            auto-bind-dlq: true
+            republish-to-dlq: true
+            dead-letter-exchange: DLX
+            dead-letter-queue-name: DLQ.${destination}.${group}
+            back-off-initial-interval: 1000
+            back-off-max-interval: 10000
+            back-off-multiplier: 2.0
