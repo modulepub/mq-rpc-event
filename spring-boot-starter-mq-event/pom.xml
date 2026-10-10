@@ -14,55 +14,18 @@
     <artifactId>spring-boot-starter-mq-event</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
-    <description>Spring Boot auto-configuration for @MqChannel Pub/Sub events</description>
+    <description>兼容聚合：event-spi + event-mq-biz（原单模块 artifact 名保留）</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-json</artifactId>
+            <groupId>pub.module</groupId>
+            <artifactId>spring-boot-starter-event-spi</artifactId>
+            <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.fridujo</groupId>
-            <artifactId>rabbitmq-mock</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>5.8.43</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>pub.module</groupId>
+            <artifactId>spring-boot-starter-event-mq-biz</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

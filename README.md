@@ -4,8 +4,12 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 
 | 模块 | Artifact | 说明 |
 |------|----------|------|
-| MQ RPC | `spring-boot-starter-mq-rpc` | 跨模块同步调用，Feign 等价物，底层 MQ Request-Reply |
-| MQ Event | `spring-boot-starter-mq-event` | 契约驱动的 Pub/Sub 与 Request-Reply 事件 |
+| RPC 契约 | `spring-boot-starter-rpc-spi` | `@RpcApi`、信封、本地 Provider、动态代理、`RpcRemoteTransport` SPI |
+| RPC MQ 实现 | `spring-boot-starter-rpc-mq-biz` | Rabbit Request-Reply、分布式事务、嵌入式 Broker |
+| Event 契约 | `spring-boot-starter-event-spi` | `@MqChannel`、`MqPublisher` 等 |
+| Event MQ 实现 | `spring-boot-starter-event-mq-biz` | Spring Cloud Stream + Rabbit 自动配置 |
+| 兼容聚合 RPC | `spring-boot-starter-mq-rpc` | = `rpc-spi` + `rpc-mq-biz` |
+| 兼容聚合 Event | `spring-boot-starter-mq-event` | = `event-spi` + `event-mq-biz` |
 
 ## 版本与 Spring Boot 对齐
 
@@ -13,6 +17,7 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 |----------|-------------|--------------|------|
 | **1.1.x** | 3.5.x | 2025.0.x（Northfields） | 当前 tg-boot 3.6 默认依赖 |
 | **2.0.x** | 4.0.x | 2025.1.x（Oakwood） | Jackson 3（`tools.jackson`）、Boot 4 模块化 AMQP |
+| **2.1.x** | 4.0.x | 2025.1.x | 上表四模块拆分；聚合 artifact 名不变 |
 
 **2.0.0 相对 1.1.0 的代码级变更（库内已处理，应用侧仅需升 BOM）：**
 
@@ -32,18 +37,28 @@ TG 模块化通信栈：基于 RabbitMQ 的 **同步 RPC**（`@RpcApi`）与 **�
 ### 引入依赖
 
 ```xml
-<!-- 同步 RPC -->
+<!-- 同步 RPC（推荐显式 spi + biz；或继续用聚合 mq-rpc） -->
 <dependency>
     <groupId>pub.module</groupId>
-    <artifactId>spring-boot-starter-mq-rpc</artifactId>
-    <version>2.0.0</version>
+    <artifactId>spring-boot-starter-rpc-spi</artifactId>
+    <version>2.1.0</version>
+</dependency>
+<dependency>
+    <groupId>pub.module</groupId>
+    <artifactId>spring-boot-starter-rpc-mq-biz</artifactId>
+    <version>2.1.0</version>
 </dependency>
 
 <!-- 异步事件 -->
 <dependency>
     <groupId>pub.module</groupId>
-    <artifactId>spring-boot-starter-mq-event</artifactId>
-    <version>2.0.0</version>
+    <artifactId>spring-boot-starter-event-spi</artifactId>
+    <version>2.1.0</version>
+</dependency>
+<dependency>
+    <groupId>pub.module</groupId>
+    <artifactId>spring-boot-starter-event-mq-biz</artifactId>
+    <version>2.1.0</version>
 </dependency>
 ```
 
